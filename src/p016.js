@@ -15,7 +15,7 @@ function problem() {
         
         Then, use the formula of:
         
-        total = total^2 + binaryDigit[i]
+        total = total*2 + binaryDigit[i]
         
         Since the numbers were so large, I turned that into:
         
