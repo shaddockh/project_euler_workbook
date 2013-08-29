@@ -15,6 +15,19 @@ function problem() {
         A leap year occurs on any year evenly divisible by 4, but not on a century unless it is divisible by 400.
         
         How many Sundays fell on the first of the month during the twentieth century (1 Jan 1901 to 31 Dec 2000)?
+        
+        
+        
+        NOTES:
+        This one threw me.  I misread 'but not on a century unless it is divisible by 400.' as not on century divisible by 400, so was off by one initially.
+        
+        Start at 1/1/1900 and just iterate over every month adding number of days.  if number of days + 1 (1st of next month) is divisible by 7, then we have a sunday
+        on the 1st of the month.
+        
+        wrote some unit tests to test the helpers prior to running.
+        
+        5ms
+        
 */
 
 
