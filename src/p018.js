@@ -48,6 +48,10 @@ Then thought about it some more and decided to work my way up from the bottom.  
  
  This will iteratively sum each node all the way to the top with the top element containing the answer.  This method does not however lend itself
  to printing out the path taken, but it does run extremely fast and should scale.  Current run time:  8ms
+ 
+ 
+ UPDATE:
+ Modified to be able to track the path through the triangle. with logging optimizations, running 3-7mx 
 
 */
 
@@ -67,9 +71,12 @@ Then thought about it some more and decided to work my way up from the bottom.  
         for (var i = triArray.length - 2; i >= 0; i--) {
             row = triArray[i];
             rowBelow = triArray[i + 1];
+            var maxElement;
 
             for (var ii = 0; ii < row.length; ii++) {
-                row[ii] += Math.max(rowBelow[ii], rowBelow[ii + 1]);
+                maxElement = rowBelow[ii].max > rowBelow[ii + 1].max ? rowBelow[ii] : rowBelow[ii + 1];
+                row[ii].max = row[ii].value + maxElement.max;
+                row[ii].maxPath = [row[ii].value].concat(maxElement.maxPath);
             }
         }
 
@@ -78,13 +85,28 @@ Then thought about it some more and decided to work my way up from the bottom.  
     function navTriangle(triArray) {
         var tree = triArray.map(function(el) {
             return el.split(' ').map(function(subEl) {
-                return parseInt(subEl);
+                return {
+                    value: parseInt(subEl)
+                    ,max: 0
+                    ,maxPath: []
+                };
             });
         });
 
+        //seed bottom row
+        var bottomRow = tree[tree.length - 1];
+            for (var x = 0; x < bottomRow.length; x++) {
+                bottomRow[x].max = bottomRow[x].value;
+                bottomRow[x].maxPath = [bottomRow[x].value];
+            }
+            
+            
         sumMaxes(tree);
-        console.log('Sum of max path: ' + tree[0][0]);
-        return tree[0][0];
+        
+        var maxNode = tree[0][0];
+        console.log('Sum of max path: ' + maxNode.max);
+        console.log('Path: '+ maxNode.maxPath);
+        return maxNode.max;
     }
 
 
