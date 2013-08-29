@@ -1,4 +1,4 @@
-
+var test = require('./utils/test');
 
 function problem() {
     /*
