@@ -1,0 +1,26 @@
+{
+  "name": "ProjectEulerWorkbook",
+  "version": "0.0.0",
+  "description": "Project Euler answers developed in javascript",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "mocha": "~1.12.1"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/shaddockh/project_euler_workbook.git"
+  },
+  "keywords": [
+    "projecteuler",
+    "javascript"
+  ],
+  "author": "T. Shaddock Heath",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/shaddockh/project_euler_workbook/issues"
+  }
+}
