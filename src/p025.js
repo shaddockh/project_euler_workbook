@@ -1,6 +1,3 @@
-var test = require('./utils/test');
-
-function problem() {
     /*
       The Fibonacci sequence is defined by the recurrence relation:
 
@@ -43,31 +40,33 @@ function problem() {
     function fibSeq(num) {
         var result = 0;
         num = parseInt(num);
-        if (num <= 1) { 
+        if (num <= 1) {
             result = num;
-        } else {
+        }
+        else {
             result = manualAdd(fibSeq(num - 1), fibSeq(num - 2));
         }
         return result;
     }
 
     function memoize(fn) {
-    
-     var hash = {};
-     return function m() {
-         var key = JSON.stringify(arguments);
-         if (key in hash) {
-             return hash[key];
-         } else {
-             hash[key] = fn.apply(this, arguments);
-             return hash[key];
-         }
-     }
+
+        var hash = {};
+        return function m() {
+            var key = JSON.stringify(arguments);
+            if (key in hash) {
+                return hash[key];
+            }
+            else {
+                hash[key] = fn.apply(this, arguments);
+                return hash[key];
+            }
+        }
     };
     fibSeq = memoize(fibSeq);
-    
+
     function findFibWithMaxDigits(maxDigits) {
-        var num = 0;    
+        var num = 0;
         while (true) {
             var result = fibSeq(num);
             if (result.toString().length == maxDigits) {
@@ -75,17 +74,21 @@ function problem() {
             }
             num++;
         }
-    
+
     }
-    
+
     function manualAdd(num1, num2) {
-        var n1 = num1.toString().split('').map(function(a){ return parseInt(a); }),
-            n2 = num2.toString().split('').map(function(a){ return parseInt(a); });
-    
+        var n1 = num1.toString().split('').map(function(a) {
+            return parseInt(a);
+        }),
+            n2 = num2.toString().split('').map(function(a) {
+                return parseInt(a);
+            });
+
         var result = [],
             val,
             carry = 0;
-            
+
         while (n1.length > 0 || n2.length > 0) {
             val = (n1.pop() || 0) + (n2.pop() || 0) + carry;
             carry = Math.floor(val / 10);
@@ -94,34 +97,25 @@ function problem() {
         if (carry > 0) {
             result.push(carry);
         }
-        
+
         return result.reverse().join('');
     }
-    
-    function testFibSeq() {
-        test.assertEqual(21, fibSeq(8));    
-        test.assertEqual(34, fibSeq(9));    
-        test.assertEqual(55, fibSeq(10));    
-        test.assertEqual(144, fibSeq(12));
+
+
+    function findSolution() {
+        var maxDigits = 1000;
+        console.log('First Fib number to have ' + maxDigits + ' digits is: ' + findFibWithMaxDigits(maxDigits));
     }
-    test.run('testFibSeq', testFibSeq);
-    
-    function testFindMaxDigits() {
-        test.assertEqual(12, findFibWithMaxDigits(3));
-        test.assertEqual(17, findFibWithMaxDigits(4));
+
+    /*
+     * Handle either as a required module or run as a standalone module 
+     */
+    if (require.main === module) {
+        //we are being called directly, just run the problem
+        require('./utils/utils').measure(findSolution);
+    } else {
+        //we are being 'require'd by someone, expose the functionality as exports
+        exports.manualAdd = manualAdd;
+        exports.findFibWithMaxDigits = findFibWithMaxDigits;
+        exports.fibSeq = fibSeq;
     }
-    test.run('testFindMaxDigits', testFindMaxDigits);
-    
-    function testManualAdd() {
-        test.assertEqual('500', manualAdd('200','300'));
-        test.assertEqual('2', manualAdd('1','1'));
-        test.assertEqual('42', manualAdd('29','13'));
-        test.assertEqual('21', manualAdd('13','8'));
-    }
-    test.run('testManualAdd', testManualAdd);
-    
-    var maxDigits = 1000;
-    console.log('First Fib number to have ' + maxDigits + ' digits is: ' + findFibWithMaxDigits(maxDigits));
-}
-test.enabled = false;
-require('./utils/utils').measure(problem);
